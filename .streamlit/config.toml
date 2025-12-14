@@ -1,0 +1,35 @@
+[general]
+# Titre de la page
+title = Agent Financier RAG + HITL
+# Favicon
+favicon = 💼
+
+[client]
+# Longueur maximale des logs en console
+maxMessageSize = 2000
+
+[theme]
+# Mode sombre
+base = "light"
+# Couleur primaire
+primaryColor = "#1f77b4"
+# Couleur secondaire
+backgroundColor = "#ffffff"
+# Couleur du texte secondaire
+secondaryBackgroundColor = "#f0f2f6"
+# Couleur du texte
+textColor = "#262730"
+# Police
+font = "sans serif"
+
+[logger]
+# Niveau de log
+level = "info"
+
+[server]
+# Port
+port = 8501
+# Rerun le script à chaque changement
+runOnSave = true
+# Adresse
+headless = false

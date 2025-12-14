@@ -1,0 +1,35 @@
+[
+  {
+    "timestamp": "2025-12-13T13:43:56.613984",
+    "question": "Quel est le résultat net de l'exercice ?",
+    "original_answer": "Information non disponible dans les documents.",
+    "original_confidence": 0.5,
+    "corrected_answer": "256",
+    "corrected_confidence": 0.5,
+    "sources": [
+      "CONSULTING ENERGIES LF 2024 Def envoi EDI.pdf",
+      "CONSULTING ENERGIES LF 2024 Def envoi EDI.pdf",
+      "CONSULTING ENERGIES LF 2024 Def envoi EDI.pdf",
+      "CONSULTING ENERGIES LF 2024 Def envoi EDI.pdf",
+      "bilan_synthetique_atelier.pdf"
+    ]
+  },
+  {
+    "timestamp": "2025-12-13T15:28:37.181836",
+    "question": "quel est la capitale du brezil",
+    "original_answer": "Je ne trouve pas d'information dans les documents fournis pour répondre à cette question.",
+    "original_confidence": 0.0,
+    "corrected_answer": "brazilia",
+    "corrected_confidence": 0.0,
+    "sources": []
+  },
+  {
+    "timestamp": "2025-12-13T15:29:33.841990",
+    "question": "quel est la capitale de la tunisie",
+    "original_answer": "Je ne trouve pas d'information dans les documents fournis pour répondre à cette question.",
+    "original_confidence": 0.0,
+    "corrected_answer": "tunis",
+    "corrected_confidence": 0.0,
+    "sources": []
+  }
+]

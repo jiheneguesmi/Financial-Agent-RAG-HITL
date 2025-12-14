@@ -1,0 +1,31 @@
+{
+  "extraction": {
+    "sheet": {
+      "finYear": 2024,
+      "finSales": 56734.0,
+      "finProfit": 168000.0,
+      "finEquity": 420000.0,
+      "finCapital": 100000.0,
+      "finBalanceSheet": 397595.0,
+      "finAvailableFunds": 260000.0,
+      "finOperationInc": 180000.0,
+      "finFinancialInc": -12000.0,
+      "finNonRecurring": 57778.0,
+      "finSecurities": 104512.0
+    },
+    "confidence_score": 1.0,
+    "missing_fields": [],
+    "additional_information": [
+      {
+        "field": "finFinancialInc",
+        "type": "negative_value",
+        "value": -12000.0,
+        "reason": "Valeur négative détectée pour finFinancialInc. Cela peut être normal (pertes, dettes) mais mérite vérification.",
+        "suggestion": "Vérifier que la valeur négative est attendue selon le contexte financier."
+      }
+    ]
+  },
+  "documents_processed": 38,
+  "validation_required": false,
+  "timestamp": "20251213_134229"
+}

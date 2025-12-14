@@ -1,0 +1,64 @@
+# Core dependencies
+langchain==0.1.0
+langchain-community==0.0.13
+langchain-openai==0.1.1
+
+# OpenAI API
+openai==1.12.0
+
+# Document processing
+pypdf==4.0.1
+python-docx==1.1.0
+pdfplumber==0.10.3
+pymupdf==1.23.26
+
+# Text processing
+tiktoken==0.5.2
+sentence-transformers==2.3.1
+
+# Vector store & embeddings
+faiss-cpu==1.7.4
+chromadb==0.4.22
+
+# Data manipulation
+pandas==2.1.4
+numpy==1.26.3
+
+# JSON handling
+jsonschema==4.20.0
+pydantic==2.5.3
+
+# File operations
+pathlib==1.0.1
+python-dotenv==1.0.0
+
+# Logging & monitoring
+loguru==0.7.2
+
+# Optional: API server
+fastapi==0.108.0
+uvicorn==0.25.0
+
+# Optional: Web interface (if needed)
+streamlit==1.30.0
+gradio==4.14.0
+# LLM et Embeddings
+langchain==0.1.0
+langchain-anthropic==0.1.1
+langchain-openai==0.0.5
+anthropic==0.18.0
+openai==1.12.0
+
+# RAG et Vector Store
+langchain-community==0.0.20
+faiss-cpu==1.7.4
+
+# Traitement PDF
+PyPDF2==3.0.1
+
+# Utilitaires
+python-dotenv==1.0.0
+
+# Optionnel: extraction avancée de tableaux
+# tabula-py==2.8.2
+# camelot-py==0.11.0
