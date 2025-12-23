@@ -7,6 +7,7 @@ from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 import json
 import os
+from pathlib import Path
 
 try:
     from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -24,7 +25,7 @@ class RAGEngine:
         self.memory = memory_manager
         
         # Clé API OpenAI
-        api_key = os.getenv("OPENAI_API_KEY") or "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"
+        api_key = os.getenv("OPENAI_API_KEY") or ""
         
         # Embeddings
         self.embeddings = OpenAIEmbeddings(
@@ -43,6 +44,9 @@ class RAGEngine:
         # Vectorstore
         self.vectorstore: Optional[FAISS] = None
         self.documents: List[Document] = []
+        
+        # Charger l'index existant au démarrage
+        self._load_persisted_index()
     
     def index_documents(self, documents: List[Document], save_to_disk: bool = True):
         """
@@ -55,7 +59,7 @@ class RAGEngine:
         self.documents = documents
         
         if not documents:
-            print("[ATTENTION] Aucun document à indexer")
+            print("⚠️  Aucun document à indexer")
             return
         
         # Créer ou mettre à jour le vectorstore
@@ -67,7 +71,7 @@ class RAGEngine:
         else:
             self.vectorstore.add_documents(documents)
         
-        print(f"OK: {len(documents)} documents indexés")
+        print(f"✓ {len(documents)} documents indexés")
         
         # Sauvegarder sur disque si demandé
         if save_to_disk:
@@ -81,7 +85,7 @@ class RAGEngine:
             index_name: Nom de l'index à sauvegarder
         """
         if self.vectorstore is None:
-            print("[ATTENTION] Aucun index à sauvegarder")
+            print("⚠️  Aucun index à sauvegarder")
             return
         
         try:
@@ -100,30 +104,26 @@ class RAGEngine:
             with open(documents_file, 'wb') as f:
                 pickle.dump(self.documents, f)
             
-            print(f"Sauvegarde RAG: {index_path}")
+            print(f"💾 Index RAG sauvegardé dans: {index_path}")
             print(f"   - {index_name}.faiss (index vectoriel)")
             print(f"   - {index_name}.pkl (docstore)")
             print(f"   - {index_name}_documents.pkl (métadonnées)")
             
         except Exception as e:
-            print(f"[ERREUR] Sauvegarde index: {e}")
+            print(f"❌ Erreur lors de la sauvegarde de l'index: {e}")
     
-    def load_index(self, index_name: str = "rag_index"):
+    def _load_persisted_index(self, index_name: str = "rag_index"):
         """
-        Charge l'index RAG depuis le disque
+        Charge automatiquement l'index RAG persisté au démarrage
         
         Args:
             index_name: Nom de l'index à charger
-            
-        Returns:
-            True si l'index a été chargé, False sinon
         """
         try:
             index_path = Path(self.config.rag_index_path)
             index_file = index_path / f"{index_name}.faiss"
             
             if not index_file.exists():
-                print(f"[ATTENTION] Aucun index trouvé dans {index_path}")
                 return False
             
             # Charger l'index FAISS
@@ -141,12 +141,52 @@ class RAGEngine:
                 with open(documents_file, 'rb') as f:
                     self.documents = pickle.load(f)
             
-            print(f"Index RAG chargé: {index_path}")
-            print(f"   OK: {len(self.documents)} documents chargés")
+            print(f"✅ Index FAISS restauré: {len(self.documents)} documents chargés")
             return True
             
         except Exception as e:
-            print(f"[ERREUR] Chargement index: {e}")
+            print(f"⚠️  Impossible de restaurer l'index FAISS: {e}")
+            return False
+    
+    def load_index(self, index_name: str = "rag_index"):
+        """
+        Charge l'index RAG depuis le disque
+        
+        Args:
+            index_name: Nom de l'index à charger
+            
+        Returns:
+            True si l'index a été chargé, False sinon
+        """
+        try:
+            index_path = Path(self.config.rag_index_path)
+            index_file = index_path / f"{index_name}.faiss"
+            
+            if not index_file.exists():
+                print(f"⚠️  Aucun index trouvé dans {index_path}")
+                return False
+            
+            # Charger l'index FAISS
+            self.vectorstore = FAISS.load_local(
+                folder_path=str(index_path),
+                embeddings=self.embeddings,
+                index_name=index_name,
+                allow_dangerous_deserialization=True
+            )
+            
+            # Charger les métadonnées des documents
+            import pickle
+            documents_file = index_path / f"{index_name}_documents.pkl"
+            if documents_file.exists():
+                with open(documents_file, 'rb') as f:
+                    self.documents = pickle.load(f)
+            
+            print(f"✅ Index RAG chargé depuis: {index_path}")
+            print(f"   ✓ {len(self.documents)} documents chargés")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Erreur lors du chargement de l'index: {e}")
             return False
     
     def add_manual_context(self, context_data: dict):
